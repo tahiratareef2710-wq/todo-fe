@@ -24,9 +24,20 @@ export default function Home () {
         // when we click the button that change gets added to the list of todos
         }> Add</button>
       <ul>
-        { todos.map ((todo) => 
+        { todos.map ((todo, index) => 
         (
-          <li key={todo}>{todo}</li>
+          <li key={index}>{todo}
+          <button onClick = { () =>
+          {
+            const updatedTodos = todos.filter((t, i) => i !== index);
+            settodos(updatedTodos);
+          }}
+          //.filetr() loops over every todo as map it gets the item and its position for ecvery elemet
+          //if index == i then we dep it 
+          // true- we keep it
+          // false- we drop it 
+          
+            > Delete</button></li> //we added index for the cases where have the same todos to diffrenciate them apart 
         ))}
       </ul>
     </main>
