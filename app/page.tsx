@@ -1,4 +1,3 @@
-
 "use client";
 import "./globals.css";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
@@ -10,9 +9,10 @@ const [todos, settodos] = useState([
   { text: "Go through CI/CD", completed: false },
   { text: "Make an App", completed: false },
 ]);
-
+const [editingIndex, setEditingIndex] =  useState<number | null>(null);
+const [editText, setEditText] = useState("");
   const [newTodo, setNewTodo] = useState("");
-  return (
+  return  (
     <main>
       <h1> My Todos</h1>
        {/*so e is refered to what the change is*/}
@@ -74,19 +74,43 @@ const [todos, settodos] = useState([
       settodos(updatedTodos);
     }}
   />
-        
-        
-        <span className={todo.completed ? "completed-text" : ""}>
-  {todo.text}
-</span>
-          <button onClick = { () =>
-          {
-            const updatedTodos = todos.filter((t, i) => i !== index);
-            settodos(updatedTodos);
-          }}
-         
 
+        {/* if this todo's index matches the one being edited, show an input+Save
+            otherwise, show the normal text + Edit + Delete buttons */}
+        { editingIndex === index ? (
+          <>
+            <input
+              value={editText}
+              onChange={(e) => setEditText(e.target.value)}
+            />
+            <button onClick={() => {
+              const updatedTodos = todos.map((t, i) => {
+                if (i === index) {
+                  return { ...t, text: editText };
+                }
+                return t;
+              });
+              settodos(updatedTodos);
+              setEditingIndex(null);
+            }}>Save</button>
+          </>
+        ) : (
+          <>
+            <span className={todo.completed ? "completed-text" : ""}>
+              {todo.text}
+            </span>
+            <button onClick={() => {
+              setEditingIndex(index);
+              setEditText(todo.text);
+            }}> Edit</button>
+            <button onClick = { () =>
+            {
+              const updatedTodos = todos.filter((t, i) => i !== index);
+              settodos(updatedTodos);
+            }}
             > Delete</button>
+          </>
+        )}
             </li> //we added index for the cases where have the same todos to diffrenciate them apart 
         )}
         </Draggable>
@@ -104,4 +128,4 @@ const [todos, settodos] = useState([
  //.filetr() loops over every todo as map it gets the item and its position for ecvery elemet
           //if index == i then we dep it 
           // true- we keep it
-          // false- we drop it 
+          // false- we drop it
