@@ -9,7 +9,7 @@ const [todos, settodos] = useState([
   { text: "Go through CI/CD", completed: false },
   { text: "Make an App", completed: false },
 ]);
-const [editingIndex, setEditingIndex] = useState(null);
+const [editingIndex, setEditingIndex] = useState<number | null>(null);
 const [editText, setEditText] = useState("");
   const [newTodo, setNewTodo] = useState("");
   return (
