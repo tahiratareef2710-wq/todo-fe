@@ -9,10 +9,10 @@ const [todos, settodos] = useState([
   { text: "Go through CI/CD", completed: false },
   { text: "Make an App", completed: false },
 ]);
-const [editingIndex, setEditingIndex] = useState<number | null>(null);
+const [editingIndex, setEditingIndex] =  useState<number | null>(null);
 const [editText, setEditText] = useState("");
   const [newTodo, setNewTodo] = useState("");
-  return (
+  return  (
     <main>
       <h1> My Todos</h1>
        {/*so e is refered to what the change is*/}
