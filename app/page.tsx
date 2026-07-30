@@ -1,5 +1,5 @@
 "use client";
-import "./globals.css";
+import "./globals.css"; 
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useState } from "react";
 import { useEffect } from "react";
