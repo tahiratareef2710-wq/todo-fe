@@ -3,6 +3,7 @@ import "./globals.css";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useState } from "react";
 import { useEffect } from "react";
+
 type Todo = {
   text: string;
   completed: boolean;
@@ -21,7 +22,7 @@ const [todos, settodos] = useState<Todo[]>(() => {
     { text: "Make an App", completed: false },
   ];
 });
-
+const activeCount = todos.filter((todo) => !todo.completed).length;
 useEffect(() => {
   localStorage.setItem("todos", JSON.stringify(todos));
 }, [todos]);
@@ -34,6 +35,7 @@ const [editText, setEditText] = useState("");
   return  (
     <main>
       <h1> My Todos</h1>
+      <p>{activeCount} {activeCount === 1 ? "item" : "items"} left</p>
        {/*so e is refered to what the change is*/}
        { /*whenever there is a change a new todo is added that change is the todo*/}
       <input
