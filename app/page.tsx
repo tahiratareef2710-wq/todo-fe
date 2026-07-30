@@ -1,5 +1,5 @@
 "use client";
-
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useState } from "react";
 
 export default function Home () {
@@ -23,23 +23,58 @@ export default function Home () {
         
         // when we click the button that change gets added to the list of todos
         }> Add</button>
-      <ul>
+        <DragDropContext onDragEnd={ (result) => {
+         const { source, destination } = result;
+
+         // if dropped outside the list, do nothing
+        if (!destination) return;
+          //picks up the copy of thr arraay so new array is not affrctes
+        const updatedTodos = Array.from(todos);
+        //1= move 1 item from the sourse 
+        //slipce fills the space
+        //moved item has b
+        const [movedItem] = updatedTodos.splice(source.index, 1);
+        // placing the item 
+        updatedTodos.splice(destination.index, 0, movedItem);
+          // update 
+        settodos(updatedTodos);
+        }}>
+        <Droppable droppableId="todo-list">
+          {(provided) => (
+            <ul {...provided.droppableProps} ref={provided.innerRef}>
+       
         { todos.map ((todo, index) => 
         (
-          <li key={index}>{todo}
+          <Draggable key={index} draggableId={String(index)} index={index}>
+              {(provided) => (
+          <li
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        > {todo}
           <button onClick = { () =>
           {
             const updatedTodos = todos.filter((t, i) => i !== index);
             settodos(updatedTodos);
           }}
-          //.filetr() loops over every todo as map it gets the item and its position for ecvery elemet
-          //if index == i then we dep it 
-          // true- we keep it
-          // false- we drop it 
-          
-            > Delete</button></li> //we added index for the cases where have the same todos to diffrenciate them apart 
+         
+
+            > Delete</button>
+            </li> //we added index for the cases where have the same todos to diffrenciate them apart 
+        )}
+        </Draggable>
         ))}
+        {provided.placeholder}
       </ul>
+          )}
+      </Droppable>
+      </DragDropContext>
+      {/* addded the drag and drop fearure after importing the library*/}
     </main>
   );
 }
+
+ //.filetr() loops over every todo as map it gets the item and its position for ecvery elemet
+          //if index == i then we dep it 
+          // true- we keep it
+          // false- we drop it 
