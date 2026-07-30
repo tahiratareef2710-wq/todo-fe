@@ -1,26 +1,121 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Quicksand', sans-serif;
+  background: linear-gradient(135deg, #ffe6f0 0%, #e6f0ff 50%, #fff5e6 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 20px;
+  margin: 0;
+}
+
+main {
+  background: white;
+  padding: 32px 36px;
+  border-radius: 24px;
+  box-shadow: 0 8px 24px rgba(255, 182, 193, 0.4);
+  width: 100%;
+  max-width: 460px;
+  border: 3px solid #ffd6e8;
+}
+
+h1 {
+  text-align: center;
+  color: #ff6fa8;
+  font-weight: 700;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+h1::after {
+  content: " 🌸";
+}
+
+input {
+  padding: 10px 16px;
+  border: 2px solid #ffd6e8;
+  border-radius: 20px;
+  margin-right: 8px;
+  width: 65%;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus {
+  border-color: #ff9ec7;
+}
+
+.todo-checkbox {
+  width: 18px;
+  flex-shrink: 0;
+  margin-right: 0;
+  padding: 0;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ffb3d1, #ff8fc3);
+  color: white;
+  cursor: pointer;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(255, 143, 195, 0.5);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 24px;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff9fb;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  border-radius: 16px;
+  border: 2px solid #ffe3ef;
+  font-weight: 600;
+  color: #6b4c57;
+  transition: transform 0.15s;
+}
+
+li:hover {
+  transform: translateX(4px);
+  border-color: #ffc2dc;
+}
+
+li::before {
+  content: "🌷 ";
+}
+
+li button {
+  background: linear-gradient(135deg, #ffd6b3, #ffb37a);
+  padding: 6px 14px;
+  font-size: 13px;
+  margin-left: auto;
+}
+
+li button:hover {
+  box-shadow: 0 4px 12px rgba(255, 179, 122, 0.5);
+}
+
+.completed-text {
+  text-decoration: line-through;
+  color: #b5a6ac;
 }

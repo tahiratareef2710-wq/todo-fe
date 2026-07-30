@@ -1,9 +1,16 @@
+
 "use client";
+import "./globals.css";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useState } from "react";
 
 export default function Home () {
-  const [todos, settodos] = useState( [ "Go through Git and Git hub", "Go through CI/CD" , "Make an App"] )
+const [todos, settodos] = useState([
+  { text: "Go through Git and Git hub", completed: false },
+  { text: "Go through CI/CD", completed: false },
+  { text: "Make an App", completed: false },
+]);
+
   const [newTodo, setNewTodo] = useState("");
   return (
     <main>
@@ -18,7 +25,7 @@ export default function Home () {
         <button onClick= { () => {
           if (newTodo.trim() === "")
             return;
-          settodos ([...todos, newTodo])
+          settodos ([...todos, {text: newTodo, completed: false}])
             }
         
         // when we click the button that change gets added to the list of todos
@@ -38,7 +45,7 @@ export default function Home () {
         updatedTodos.splice(destination.index, 0, movedItem);
           // update 
         settodos(updatedTodos);
-        }}>
+        }} >    
         <Droppable droppableId="todo-list">
           {(provided) => (
             <ul {...provided.droppableProps} ref={provided.innerRef}>
@@ -51,7 +58,27 @@ export default function Home () {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-        > {todo}
+        > 
+         <input
+    type="checkbox"
+    className="todo-checkbox"
+
+    checked={todo.completed}
+    onChange={() => {
+      const updatedTodos = todos.map((t, i) => {
+        if (i === index) {
+          return { ...t, completed: !t.completed };
+        }
+        return t;
+      });
+      settodos(updatedTodos);
+    }}
+  />
+        
+        
+        <span className={todo.completed ? "completed-text" : ""}>
+  {todo.text}
+</span>
           <button onClick = { () =>
           {
             const updatedTodos = todos.filter((t, i) => i !== index);
