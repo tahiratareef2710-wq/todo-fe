@@ -2,13 +2,28 @@
 import "./globals.css";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useState } from "react";
-
+import { useEffect } from "react";
 export default function Home () {
-const [todos, settodos] = useState([
-  { text: "Go through Git and Git hub", completed: false },
-  { text: "Go through CI/CD", completed: false },
-  { text: "Make an App", completed: false },
-]);
+const [todos, settodos] = useState(() => {
+  if (typeof window !== "undefined") {
+    const saved = localStorage.getItem("todos");
+    if (saved) {
+      return JSON.parse(saved);
+    }
+  }
+  return [
+    { text: "Go through Git and Git hub", completed: false },
+    { text: "Go through CI/CD", completed: false },
+    { text: "Make an App", completed: false },
+  ];
+});
+
+useEffect(() => {
+  localStorage.setItem("todos", JSON.stringify(todos));
+}, [todos]);
+
+
+
 const [editingIndex, setEditingIndex] =  useState<number | null>(null);
 const [editText, setEditText] = useState("");
   const [newTodo, setNewTodo] = useState("");
