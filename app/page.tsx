@@ -3,8 +3,12 @@ import "./globals.css";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useState } from "react";
 import { useEffect } from "react";
+type Todo = {
+  text: string;
+  completed: boolean;
+};
 export default function Home () {
-const [todos, settodos] = useState(() => {
+const [todos, settodos] = useState<Todo[]>(() => {
   if (typeof window !== "undefined") {
     const saved = localStorage.getItem("todos");
     if (saved) {
