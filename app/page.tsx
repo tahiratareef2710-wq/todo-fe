@@ -68,20 +68,28 @@ export default function Home () {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <input
-                        type="checkbox"
-                        className="todo-checkbox"
-                        checked={todo.done}
-                        onChange={() => {
-                          const updatedTodos = todos.map((t) => {
-                            if (t.id === todo.id) {
-                              return { ...t, done: !t.done };
-                            }
-                            return t;
-                          });
-                          settodos(updatedTodos);
-                        }}
-                      />
+                    <input
+  type="checkbox"
+  className="todo-checkbox"
+  checked={todo.done}
+  onChange={() => {
+    fetch(`https://todo-be-production-f918.up.railway.app/todos/${todo.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ done: !todo.done }),
+    })
+      .then((res) => res.json())
+      .then((updatedTodo) => {
+        const updatedTodos = todos.map((t) => {
+          if (t.id === todo.id) {
+            return updatedTodo;
+          }
+          return t;
+        });
+        settodos(updatedTodos);
+      });
+  }}
+/>
 
                       {editingId === todo.id ? (
                         <>
@@ -90,29 +98,38 @@ export default function Home () {
                             onChange={(e) => setEditText(e.target.value)}
                           />
                           <button onClick={() => {
-                            const updatedTodos = todos.map((t) => {
-                              if (t.id === todo.id) {
-                                return { ...t, title: editText };
-                              }
-                              return t;
-                            });
-                            settodos(updatedTodos);
-                            setEditingId(null);
-                          }}>Save</button>
+  fetch(`https://todo-be-production-f918.up.railway.app/todos/${todo.id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title: editText }),
+  })
+    .then((res) => res.json())
+    .then((updatedTodo) => {
+      const updatedTodos = todos.map((t) => {
+        if (t.id === todo.id) {
+          return updatedTodo;
+        }
+        return t;
+      });
+      settodos(updatedTodos);
+      setEditingId(null);
+    });
+}}>Save</button>
                         </>
                       ) : (
                         <>
                           <span className={todo.done ? "completed-text" : ""}>
                             {todo.title}
                           </span>
-                          <button onClick={() => {
-                            setEditingId(todo.id);
-                            setEditText(todo.title);
-                          }}> Edit</button>
-                          <button onClick={() => {
-                            const updatedTodos = todos.filter((t) => t.id !== todo.id);
-                            settodos(updatedTodos);
-                          }}> Delete</button>
+                         <button onClick={() => {
+  fetch(`https://todo-be-production-f918.up.railway.app/todos/${todo.id}`, {
+    method: "DELETE",
+  })
+    .then(() => {
+      const updatedTodos = todos.filter((t) => t.id !== todo.id);
+      settodos(updatedTodos);
+    });
+}}> Delete</button>
                         </>
                       )}
                     </li>
