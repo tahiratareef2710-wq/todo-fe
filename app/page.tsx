@@ -35,10 +35,19 @@ export default function Home () {
       />
 
       <button onClick={() => {
-        if (newTodo.trim() === "") return;
-        // we'll replace this with a real API call in the next step
-        settodos([...todos, { id: Date.now(), title: newTodo, done: false }]);
-      }}> Add</button>
+  if (newTodo.trim() === "") return;
+
+  fetch("https://todo-be-production-f918.up.railway.app/todos", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title: newTodo }),
+  })
+    .then((res) => res.json())
+    .then((createdTodo) => {
+      settodos([...todos, createdTodo]);
+      setNewTodo("");
+    });
+}}> Add</button>
 
       <DragDropContext onDragEnd={(result) => {
         const { source, destination } = result;
